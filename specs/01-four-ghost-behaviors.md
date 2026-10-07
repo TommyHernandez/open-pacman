@@ -1,6 +1,6 @@
 # SPEC 01 — Cuatro fantasmas con comportamientos del original
 
-> **Status:** Approved
+> **Status:** Implemented
 > **Depends on:** —
 > **Date:** 2026-10-07
 > **Objective:** Juego con 4 fantasmas donde cada uno aplica su estrategia original de Pac-Man y el rojo persigue agresivamente a Pac-Man.

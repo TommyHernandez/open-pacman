@@ -29,6 +29,10 @@ const RELEASE_TURN_BY_KIND = {
 const PEN_RECT = { top: 13, bottom: 15, left: 11, right: 16 };
 const PEN_DOOR = { x: 13, y: 12 };
 
+// Clyde huye a su esquina cuando esta a esta distancia o menos de Pacman.
+const CLYDE_FLEE_DISTANCE = 8;
+const CLYDE_CORNER = { x: 1, y: 29 };
+
 function isInsidePen( actor ) {
   return (
     actor.y >= PEN_RECT.top && actor.y <= PEN_RECT.bottom &&
@@ -216,6 +220,19 @@ function decideGhost( game, ghost ) {
         2 * aheadCellX - Math.round( blinky.x ),
         2 * aheadCellY - Math.round( blinky.y )
       );
+      break;
+    }
+    case 'clyde': {
+      // Tímido: persigue de lejos, pero si se acerca a 8 celdas o menos
+      // huye a su esquina (inferior izquierda).
+      const pacmanCellX = Math.round( pacman.x );
+      const pacmanCellY = Math.round( pacman.y );
+      const distanceToPacman =
+        Math.abs( ghost.x - pacmanCellX ) + Math.abs( ghost.y - pacmanCellY );
+      const target = distanceToPacman > CLYDE_FLEE_DISTANCE
+        ? { x: pacmanCellX, y: pacmanCellY }
+        : CLYDE_CORNER;
+      ghost.dir = closestDirTo( ghost, choices, target.x, target.y );
       break;
     }
     default:
